@@ -26,7 +26,7 @@ public class Contact {
     @Column
     private String email;
 
-    @Column
+    @Column(length = 20)
     private String phone;
 
     public Integer getId() {

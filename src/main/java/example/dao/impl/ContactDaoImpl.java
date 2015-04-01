@@ -3,6 +3,9 @@ package example.dao.impl;
 import example.dao.ContactDao;
 import example.domain.Contact;
 import java.util.Collection;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +17,24 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ContactDaoImpl implements ContactDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void add(Contact contact) {
-        sessionFactory.getCurrentSession().save(contact);
+        entityManager.persist(contact);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Collection<Contact> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Contact").list();
+        return entityManager.createQuery("from Contact", Contact.class).getResultList();
     }
 
     @Override
     public void remove(Integer contactId) {
-        Contact contact = (Contact) sessionFactory.getCurrentSession().load(Contact.class, contactId);
+        Contact contact = entityManager.find(Contact.class, contactId);
         if (null != contact) {
-            sessionFactory.getCurrentSession().delete(contact);
+            entityManager.remove(contact);
         }
     }
 }
