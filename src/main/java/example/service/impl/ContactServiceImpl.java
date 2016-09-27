@@ -1,12 +1,13 @@
 package example.service.impl;
 
-import example.dao.ContactDao;
+import example.dao.ContactRepository;
 import example.domain.Contact;
 import example.service.ContactService;
-import java.util.Collection;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.Collection;
 
 /**
  * @author Vlad Fefelov
@@ -16,20 +17,20 @@ import org.springframework.stereotype.Service;
 public class ContactServiceImpl implements ContactService {
 
     @Autowired
-    private ContactDao contactDao;
+    private ContactRepository contactRepository;
 
     @Override
     public Collection<Contact> getAll() {
-        return contactDao.getAll();
+        return contactRepository.findAll();
     }
 
     @Override
     public void add(Contact contact) {
-        contactDao.add(contact);
+        contactRepository.save(contact);
     }
 
     @Override
     public void remove(Integer contactId) {
-        contactDao.remove(contactId);
+        contactRepository.delete(contactId);
     }
 }
