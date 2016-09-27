@@ -16,9 +16,9 @@ App.controller('PhoneController', function ($scope, $http) {
     };
 
     $scope.remove = function(contact) {
-        $http.delete('contact', { params: { contactId: contact.id }}).success(function (data) {
+        $http.delete('contact', {params: {contactId: contact.id}}).success(function (data) {
             $scope.contacts = data;
-        })
+        });
     };
 
 });
